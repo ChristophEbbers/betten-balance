@@ -7,7 +7,7 @@ Welcome to our contribution to #WirvsVirus!
 
 ## Overview of concepts
 
-<img src="Konzept.jpg" alt="Alt-Text" title="" /> 
+<img src="Documentation/Img/Konzept.jpg" alt="Alt-Text" title="" /> 
 
 
 ## Overview Data Sources
