@@ -2,15 +2,16 @@
 
 Welcome to our contribution to #WirvsVirus!
 
-<img src="Documentation/Img/logo_draft.jpg" alt="Alt-Text" title="" /> 
-<img src="Documentation/Img/Team.jpg" alt="Alt-Text" title="" /> 
+![Logo](Documentation/Img/logo_draft.png)
+![Team](Documentation/Img/Team.png)
 
 ## Overview of concepts
 
-<img src="Documentation/Img/Konzept.jpg" alt="Alt-Text" title="" /> 
+![Concept](Documentation/Img/Konzept.png)
 
 
 ## Overview Data Sources
 
+![Data Sources](Documentation/Img/Datenquellen.png)
+
 ## Overview Technical concept
-<img src="Documentation/Img/logo_draft.jpg" alt="Alt-Text" title="" /> 
