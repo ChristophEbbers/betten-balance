@@ -12,7 +12,7 @@
 	<artifactId>betten</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>wirvsvirus</name>
-	<description>Wir vs Virus</description>
+	<description>WirvsVirus </description>
 
 	<properties>
 		<java.version>13</java.version>
