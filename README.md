@@ -2,15 +2,19 @@
 
 Welcome to our contribution to #WirvsVirus!
 
-<img src="Documentation/Img/logo_draft.jpg" alt="Alt-Text" title="" /> 
-<img src="Documentation/Img/Team.jpg" alt="Alt-Text" title="" /> 
+![Logo](Documentation/Img/logo_draft.png)
+![Team](Documentation/Img/Team.png)
 
 ## Overview of concepts
 
-<img src="Documentation/Img/Konzept.jpg" alt="Alt-Text" title="" /> 
+![Concept](Documentation/Img/Konzept.png)
 
 
 ## Overview Data Sources
 
-## Overview Technical concept
-<img src="Documentation/Img/logo_draft.jpg" alt="Alt-Text" title="" /> 
+![Data Sources](Documentation/Img/Datenquellen.png)
+
+## Technical concept
+
+Die Applikation verbindet sich zu den verschiedensten APIs und stellt alle relevanten Informationen in einer Datenbank zur Verfügung. Die Datensätze werden aktuelle alle 24 Stunden automatisiert aktualisiert und sind somit immer aktuell. Die Synchronisation erfolgt dann über die Datenbank, damit hat man den Vorteil, dass andere Teams sprachunabhängig sind. Die verarbeiteten Daten sollten  in einer weiteren Collection gespeichert werden. So ist es möglich das sich das System über Nacht wieder selbst heilt.
+Aktueller Technologie-Stack: Spring Boot mit Java 13, MongoDB Atlas, Python
