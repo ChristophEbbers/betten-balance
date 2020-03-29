@@ -1,8 +1,8 @@
-package de.wirvsvirus.betten.npgeoconsumer;
+package de.wirvsvirus.maxcap.npgeoconsumer;
 
-import de.wirvsvirus.betten.FaelleBundesland;
-import de.wirvsvirus.betten.npgeoconsumer.event.ApiNpgeoFaelleBundesland;
-import de.wirvsvirus.betten.npgeoconsumer.repository.FaelleBundeslandRepository;
+import de.wirvsvirus.maxcap.FaelleBundesland;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.ApiNpgeoFaelleBundesland;
+import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleBundeslandRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;

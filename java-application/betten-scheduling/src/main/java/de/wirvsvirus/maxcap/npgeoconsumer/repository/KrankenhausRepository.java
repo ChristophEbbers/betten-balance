@@ -1,6 +1,6 @@
-package de.wirvsvirus.betten.npgeoconsumer.repository;
+package de.wirvsvirus.maxcap.npgeoconsumer.repository;
 
-import de.wirvsvirus.betten.Krankenhaus;
+import de.wirvsvirus.maxcap.Krankenhaus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface KrankenhausRepository extends MongoRepository<Krankenhaus, String> {}

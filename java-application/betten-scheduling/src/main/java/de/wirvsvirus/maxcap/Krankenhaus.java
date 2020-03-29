@@ -1,4 +1,4 @@
-package de.wirvsvirus.betten;
+package de.wirvsvirus.maxcap;
 
 import java.time.Instant;
 import lombok.Value;
@@ -13,12 +13,12 @@ public class Krankenhaus {
   String amenity;
   @Indexed String healthcare;
   String operator;
-  String contact_phone;
-  String contact_website;
-  String address_street;
-  String address_housenumber;
-  String address_postcode;
-  String address_city;
+  String telefonnummer;
+  String webseite;
+  String strasse;
+  String hausnummer;
+  String plz;
+  String stadt;
   String emergency;
   @Indexed String rooms;
   @Indexed String beds;

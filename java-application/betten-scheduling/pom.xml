@@ -8,11 +8,11 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>de.wirvsvirus.betten</groupId>
+	<groupId>de.wirvsvirus.maxcap</groupId>
 	<artifactId>betten</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wirvsvirus</name>
-	<description>WirvsVirus </description>
+	<name>maxCap</name>
+	<description>WirvsVirus maxCap</description>
 
 	<properties>
 		<java.version>13</java.version>

@@ -1,14 +1,9 @@
-package de.wirvsvirus.betten.npgeoconsumer;
+package de.wirvsvirus.maxcap.npgeoconsumer;
 
-import de.wirvsvirus.betten.Krankenhaus;
-import de.wirvsvirus.betten.ResolveLongAndLatitude;
-import de.wirvsvirus.betten.npgeoconsumer.event.ApiNpgeoKrankenhaus;
-import de.wirvsvirus.betten.npgeoconsumer.event.StateAndCounty;
-import de.wirvsvirus.betten.npgeoconsumer.repository.KrankenhausRepository;
-import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import de.wirvsvirus.maxcap.Krankenhaus;
+import de.wirvsvirus.maxcap.ResolveLongAndLatitude;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.ApiNpgeoKrankenhaus;
+import de.wirvsvirus.maxcap.npgeoconsumer.repository.KrankenhausRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,8 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/maxcap")
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -34,8 +34,9 @@ public class KrankenhausConsumer {
   private String npgeoKrankenhausBaseUri;
 
   // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
-  @GetMapping("/")
+  @GetMapping("/krankenhaus")
   public void consumeNpgeoKrankenhaeuser() {
+    log.info("Consume Krankenhaus from {}", npgeoKrankenhausBaseUri);
     saveKrankenhaeuserFromApi(restTemplate);
   }
 
@@ -59,12 +60,12 @@ public class KrankenhausConsumer {
               String amenty = feature.getProperties().getAmenity();
               String healthcare = feature.getProperties().getHealthcare();
               String operator = feature.getProperties().getOperator();
-              String phone = feature.getProperties().getContact_phone();
-              String website = feature.getProperties().getContact_website();
-              String street = feature.getProperties().getAddress_street();
-              String housenumber = feature.getProperties().getAddress_housenumber();
-              String postcode = feature.getProperties().getAddress_postcode();
-              String city = feature.getProperties().getAddress_city();
+              String telefonnummer = feature.getProperties().getContact_phone();
+              String webseite = feature.getProperties().getContact_website();
+              String strasse = feature.getProperties().getAddress_street();
+              String hausnummer = feature.getProperties().getAddress_housenumber();
+              String plz = feature.getProperties().getAddress_postcode();
+              String stadt = feature.getProperties().getAddress_city();
               String emergency = feature.getProperties().getEmergency();
               String rooms = feature.getProperties().getRooms();
               String beds = feature.getProperties().getBeds();
@@ -73,22 +74,17 @@ public class KrankenhausConsumer {
               Double lat = feature.getGeometry().getCoordinates().get(1);
               Double lon = feature.getGeometry().getCoordinates().get(0);
 
-
-//              StateAndCounty stateAndCounty = resolveLongAndLatitude.getStateAndCounty(lat, lon);
-//              String state = stateAndCounty.getAddress().getState();
-//              String county = stateAndCounty.getAddress().getCounty();
-
               return new Krankenhaus(
                   name,
                   amenty,
                   healthcare,
                   operator,
-                  phone,
-                  website,
-                  street,
-                  housenumber,
-                  postcode,
-                  city,
+                  telefonnummer,
+                  webseite,
+                  strasse,
+                  hausnummer,
+                  plz,
+                  stadt,
                   emergency,
                   rooms,
                   beds,

@@ -1,6 +1,6 @@
-package de.wirvsvirus.betten.npgeoconsumer.repository;
+package de.wirvsvirus.maxcap.npgeoconsumer.repository;
 
-import de.wirvsvirus.betten.FaelleLandkreis;
+import de.wirvsvirus.maxcap.FaelleLandkreis;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface FaelleLandkreisRepository extends MongoRepository<FaelleLandkreis, String> {}

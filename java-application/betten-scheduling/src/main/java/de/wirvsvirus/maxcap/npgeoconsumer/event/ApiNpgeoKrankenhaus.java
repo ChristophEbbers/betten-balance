@@ -1,7 +1,8 @@
-package de.wirvsvirus.betten.npgeoconsumer.event;
+package de.wirvsvirus.maxcap.npgeoconsumer.event;
+
+import lombok.Data;
 
 import java.util.List;
-import lombok.Data;
 
 @Data
 public class ApiNpgeoKrankenhaus {

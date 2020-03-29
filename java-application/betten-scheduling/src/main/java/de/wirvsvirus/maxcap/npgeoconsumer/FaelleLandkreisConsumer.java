@@ -1,18 +1,19 @@
-package de.wirvsvirus.betten.npgeoconsumer;
+package de.wirvsvirus.maxcap.npgeoconsumer;
 
-import de.wirvsvirus.betten.FaelleLandkreis;
-import de.wirvsvirus.betten.npgeoconsumer.event.ApiNpgeoFaelleLandkreis;
-import de.wirvsvirus.betten.npgeoconsumer.repository.FaelleLandkreisRepository;
-import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import de.wirvsvirus.maxcap.FaelleLandkreis;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.ApiNpgeoFaelleLandkreis;
+import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleLandkreisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -25,7 +26,7 @@ public class FaelleLandkreisConsumer {
   @Value("${npgeo.faelle.landkreis.uri}")
   private String npgeoFaelleLandkreisUri;
 
-  // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
+    // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
   public void consumeNpgeoFaelleBundesland() {
     saveFaelleLandkreis(restTemplate);
   }
@@ -67,12 +68,5 @@ public class FaelleLandkreisConsumer {
                   landkreisId);
             })
         .collect(Collectors.toList());
-  }
-
-  private static String removeLeadingZero(String landId) {
-    if (Objects.equals(landId.substring(0, 1), "0")) {
-      landId = landId.substring(1, 2);
-    }
-    return landId;
   }
 }

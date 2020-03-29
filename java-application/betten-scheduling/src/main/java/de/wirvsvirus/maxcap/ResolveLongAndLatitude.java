@@ -1,6 +1,6 @@
-package de.wirvsvirus.betten;
+package de.wirvsvirus.maxcap;
 
-import de.wirvsvirus.betten.npgeoconsumer.event.StateAndCounty;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.StateAndCounty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

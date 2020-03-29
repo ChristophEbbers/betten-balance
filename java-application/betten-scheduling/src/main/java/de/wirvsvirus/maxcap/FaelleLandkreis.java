@@ -1,4 +1,4 @@
-package de.wirvsvirus.betten;
+package de.wirvsvirus.maxcap;
 
 import java.time.Instant;
 import lombok.Value;

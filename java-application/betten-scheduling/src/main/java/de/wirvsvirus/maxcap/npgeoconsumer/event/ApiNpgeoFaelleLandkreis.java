@@ -1,4 +1,4 @@
-package de.wirvsvirus.betten.npgeoconsumer.event;
+package de.wirvsvirus.maxcap.npgeoconsumer.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;

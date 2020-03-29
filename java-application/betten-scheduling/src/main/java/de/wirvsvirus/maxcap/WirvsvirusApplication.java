@@ -1,4 +1,4 @@
-package de.wirvsvirus.betten;
+package de.wirvsvirus.maxcap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
