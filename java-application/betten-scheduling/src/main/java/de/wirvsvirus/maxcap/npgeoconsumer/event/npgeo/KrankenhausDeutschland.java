@@ -1,11 +1,11 @@
-package de.wirvsvirus.maxcap.npgeoconsumer.event;
+package de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ApiNpgeoKrankenhaus {
+public class KrankenhausDeutschland {
 
   List<Feature> features;
 

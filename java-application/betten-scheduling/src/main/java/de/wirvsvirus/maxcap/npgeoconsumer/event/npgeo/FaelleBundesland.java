@@ -1,4 +1,4 @@
-package de.wirvsvirus.maxcap.npgeoconsumer.event;
+package de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ApiNpgeoFaelleBundesland {
+public class FaelleBundesland {
   @JsonProperty("features")
   List<Feature> features;
 

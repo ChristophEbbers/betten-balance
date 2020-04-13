@@ -1,7 +1,6 @@
 package de.wirvsvirus.maxcap.npgeoconsumer;
 
-import de.wirvsvirus.maxcap.FaelleLandkreis;
-import de.wirvsvirus.maxcap.npgeoconsumer.event.ApiNpgeoFaelleLandkreis;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo.FaelleLandkreis;
 import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleLandkreisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,16 +31,16 @@ public class FaelleLandkreisConsumer {
   }
 
   public void saveFaelleLandkreis(@Qualifier("npgeoApiClientTemplate") RestTemplate restTemplate) {
-    List<FaelleLandkreis> faelleLankreis =
+    List<de.wirvsvirus.maxcap.FaelleLandkreis> faelleLankreis =
         toFaelleBundeslandModel(
             Objects.requireNonNull(
-                restTemplate.getForObject(npgeoFaelleLandkreisUri, ApiNpgeoFaelleLandkreis.class)));
+                restTemplate.getForObject(npgeoFaelleLandkreisUri, FaelleLandkreis.class)));
 
     faelleLankreis.forEach(faelleLandkreisRepository::save);
     log.info("Saved {} Faelle pro Landkreis", faelleLankreis.size());
   }
 
-  private List<FaelleLandkreis> toFaelleBundeslandModel(ApiNpgeoFaelleLandkreis apiNpgeoFaelle) {
+  private List<de.wirvsvirus.maxcap.FaelleLandkreis> toFaelleBundeslandModel(FaelleLandkreis apiNpgeoFaelle) {
     return apiNpgeoFaelle.getFeatures().stream()
         .map(
             feature -> {
@@ -56,7 +55,7 @@ public class FaelleLandkreisConsumer {
               Instant meldeZeitpunkt = feature.getProperties().getMeldeZeitpunkt();
               String landkreisId = feature.getProperties().getLandkreisId();
 
-              return new FaelleLandkreis(
+              return new de.wirvsvirus.maxcap.FaelleLandkreis(
                   landId,
                   bundesland,
                   landkreis,

@@ -1,7 +1,6 @@
 package de.wirvsvirus.maxcap.npgeoconsumer;
 
-import de.wirvsvirus.maxcap.FaelleBundesland;
-import de.wirvsvirus.maxcap.npgeoconsumer.event.ApiNpgeoFaelleBundesland;
+import de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo.FaelleBundesland;
 import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleBundeslandRepository;
 import java.time.Instant;
 import java.util.List;
@@ -31,17 +30,17 @@ public class FaelleBundeslandConsumer {
   }
 
   public void saveFaelleBundesland(@Qualifier("npgeoApiClientTemplate") RestTemplate restTemplate) {
-    List<FaelleBundesland> faelleEinwohnerBundeslands =
+    List<de.wirvsvirus.maxcap.FaelleBundesland> faelleEinwohnerBundeslands =
         toFaelleBundeslandModel(
             Objects.requireNonNull(
                 restTemplate.getForObject(
-                    npgeoFaelleBundeslandUri, ApiNpgeoFaelleBundesland.class)));
+                    npgeoFaelleBundeslandUri, FaelleBundesland.class)));
 
     faelleEinwohnerBundeslands.forEach(faelleEinwohnerBundeslandRepository::save);
     log.info("Saved {} Faelle pro Bundesland", faelleEinwohnerBundeslands.size());
   }
 
-  private List<FaelleBundesland> toFaelleBundeslandModel(ApiNpgeoFaelleBundesland apiNpgeoFaelle) {
+  private List<de.wirvsvirus.maxcap.FaelleBundesland> toFaelleBundeslandModel(FaelleBundesland apiNpgeoFaelle) {
     return apiNpgeoFaelle.getFeatures().stream()
         .map(
             feature -> {
@@ -57,7 +56,7 @@ public class FaelleBundeslandConsumer {
               String shapeLength = feature.getProperties().getShapeLength();
               long death = feature.getProperties().getDeath();
 
-              return new FaelleBundesland(
+              return new de.wirvsvirus.maxcap.FaelleBundesland(
                   landId,
                   landFull,
                   bezeichnung,
