@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class FaelleLandkreisConsumer {
+public class CallFaelleLandkreisApi {
 
   private final RestTemplate restTemplate;
   private final FaelleLandkreisRepository faelleLandkreisRepository;

@@ -1,6 +1,17 @@
 package de.wirvsvirus.maxcap.npgeoconsumer.repository;
 
 import de.wirvsvirus.maxcap.npgeoconsumer.BettenDeutschland;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Repository;
 
-public interface BettenRepository extends MongoRepository<BettenDeutschland, String> {}
+@Repository
+@RequiredArgsConstructor
+public class BettenRepository {
+
+  private final MongoTemplate mongoTemplate;
+
+  public void save(BettenDeutschland bettenDeutschland) {
+    mongoTemplate.save(bettenDeutschland);
+  }
+}

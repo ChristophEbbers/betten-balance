@@ -1,6 +1,17 @@
 package de.wirvsvirus.maxcap.npgeoconsumer.repository;
 
 import de.wirvsvirus.maxcap.Krankenhaus;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Repository;
 
-public interface KrankenhausRepository extends MongoRepository<Krankenhaus, String> {}
+@Repository
+@RequiredArgsConstructor
+public class KrankenhausRepository {
+
+  private final MongoTemplate mongoTemplate;
+
+  public void save(Krankenhaus krankenhaus) {
+    mongoTemplate.save(krankenhaus);
+  }
+}

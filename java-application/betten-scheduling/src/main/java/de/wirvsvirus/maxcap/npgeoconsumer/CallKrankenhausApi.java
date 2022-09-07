@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class KrankenhausConsumer {
+public class CallKrankenhausApi {
 
   private final RestTemplate restTemplate;
   private final KrankenhausRepository krankenhausRepository;

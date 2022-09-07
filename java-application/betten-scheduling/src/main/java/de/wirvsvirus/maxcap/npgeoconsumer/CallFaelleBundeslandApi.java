@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class FaelleBundeslandConsumer {
+public class CallFaelleBundeslandApi {
 
   private final RestTemplate restTemplate;
   private final FaelleBundeslandRepository faelleEinwohnerBundeslandRepository;
