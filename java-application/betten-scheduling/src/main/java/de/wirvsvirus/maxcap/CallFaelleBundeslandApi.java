@@ -1,15 +1,14 @@
-package de.wirvsvirus.maxcap.npgeoconsumer;
+package de.wirvsvirus.maxcap;
 
-import de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo.FaelleBundesland;
-import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleBundeslandRepository;
-import java.time.Instant;
+import de.wirvsvirus.maxcap.event.krankenhauslotse.FaelleBundesland;
+import de.wirvsvirus.maxcap.repository.FaelleBundeslandRepository;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,37 +23,36 @@ public class CallFaelleBundeslandApi {
   @Value("${npgeo.faelle.bundesland.uri}")
   private String npgeoFaelleBundeslandUri;
 
-  // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
+//  @Scheduled(initialDelayString = "PT1M")
   public void consumeNpgeoFaelleBundesland() {
     saveFaelleBundesland(restTemplate);
   }
 
   public void saveFaelleBundesland(@Qualifier("npgeoApiClientTemplate") RestTemplate restTemplate) {
-    List<de.wirvsvirus.maxcap.FaelleBundesland> faelleEinwohnerBundeslands =
+    var faelleEinwohnerBundeslands =
         toFaelleBundeslandModel(
             Objects.requireNonNull(
-                restTemplate.getForObject(
-                    npgeoFaelleBundeslandUri, FaelleBundesland.class)));
+                restTemplate.getForObject(npgeoFaelleBundeslandUri, FaelleBundesland.class)));
 
     faelleEinwohnerBundeslands.forEach(faelleEinwohnerBundeslandRepository::save);
     log.info("Saved {} Faelle pro Bundesland", faelleEinwohnerBundeslands.size());
   }
 
-  private List<de.wirvsvirus.maxcap.FaelleBundesland> toFaelleBundeslandModel(FaelleBundesland apiNpgeoFaelle) {
+  private List<de.wirvsvirus.maxcap.FaelleBundesland> toFaelleBundeslandModel(
+      FaelleBundesland apiNpgeoFaelle) {
     return apiNpgeoFaelle.getFeatures().stream()
         .map(
             feature -> {
-              String landId = feature.getProperties().getLanEwAgs();
-              landId = removeLeadingZero(landId);
-              String landFull = feature.getProperties().getLanEwGen();
-              String bezeichnung = feature.getProperties().getLanEwBez();
-              long landEinwohnerZahl = feature.getProperties().getLanEwEwz();
-              long fallzahl = feature.getProperties().getFallzahl();
-              Instant zeitpunktAktualisierung = feature.getProperties().getZeitpunkt();
-              Double faelleAud100000Einwohner = feature.getProperties().getFaelle100000EW();
-              String shapeArea = feature.getProperties().getShapeArea();
-              String shapeLength = feature.getProperties().getShapeLength();
-              long death = feature.getProperties().getDeath();
+              var landId = removeLeadingZero(feature.getProperties().getLanEwAgs());
+              var landFull = feature.getProperties().getLanEwGen();
+              var bezeichnung = feature.getProperties().getLanEwBez();
+              var landEinwohnerZahl = feature.getProperties().getLanEwEwz();
+              var fallzahl = feature.getProperties().getFallzahl();
+              var zeitpunktAktualisierung = feature.getProperties().getZeitpunkt();
+              var faelleAud100000Einwohner = feature.getProperties().getFaelle100000EW();
+              var shapeArea = feature.getProperties().getShapeArea();
+              var shapeLength = feature.getProperties().getShapeLength();
+              var death = feature.getProperties().getDeath();
 
               return new de.wirvsvirus.maxcap.FaelleBundesland(
                   landId,
@@ -68,7 +66,7 @@ public class CallFaelleBundeslandApi {
                   shapeLength,
                   death);
             })
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private static String removeLeadingZero(String landId) {

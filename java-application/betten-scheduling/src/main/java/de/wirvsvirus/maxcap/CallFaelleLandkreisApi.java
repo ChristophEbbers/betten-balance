@@ -1,18 +1,16 @@
-package de.wirvsvirus.maxcap.npgeoconsumer;
+package de.wirvsvirus.maxcap;
 
-import de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo.FaelleLandkreis;
-import de.wirvsvirus.maxcap.npgeoconsumer.repository.FaelleLandkreisRepository;
+import de.wirvsvirus.maxcap.event.krankenhauslotse.FaelleLandkreis;
+import de.wirvsvirus.maxcap.repository.FaelleLandkreisRepository;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -25,13 +23,13 @@ public class CallFaelleLandkreisApi {
   @Value("${npgeo.faelle.landkreis.uri}")
   private String npgeoFaelleLandkreisUri;
 
-    // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
+//   @Scheduled(initialDelayString = "PT5M")
   public void consumeNpgeoFaelleBundesland() {
     saveFaelleLandkreis(restTemplate);
   }
 
   public void saveFaelleLandkreis(@Qualifier("npgeoApiClientTemplate") RestTemplate restTemplate) {
-    List<de.wirvsvirus.maxcap.FaelleLandkreis> faelleLankreis =
+    var faelleLankreis =
         toFaelleBundeslandModel(
             Objects.requireNonNull(
                 restTemplate.getForObject(npgeoFaelleLandkreisUri, FaelleLandkreis.class)));
@@ -40,20 +38,20 @@ public class CallFaelleLandkreisApi {
     log.info("Saved {} Faelle pro Landkreis", faelleLankreis.size());
   }
 
-  private List<de.wirvsvirus.maxcap.FaelleLandkreis> toFaelleBundeslandModel(FaelleLandkreis apiNpgeoFaelle) {
+  private List<de.wirvsvirus.maxcap.FaelleLandkreis> toFaelleBundeslandModel(
+      FaelleLandkreis apiNpgeoFaelle) {
     return apiNpgeoFaelle.getFeatures().stream()
         .map(
             feature -> {
-              String landId = feature.getProperties().getLandId();
-              String bundesland = feature.getProperties().getBundesland();
-              String landkreis = feature.getProperties().getLandkreis();
-              String altersGruppe = feature.getProperties().getAltersgruppe();
-              altersGruppe = altersGruppe.replaceAll("A", "");
-              String geschlecht = feature.getProperties().getGeschlecht();
-              long anzahlFaelle = feature.getProperties().getFaelle();
-              long anzahlTodesFaelle = feature.getProperties().getTodesfaelle();
-              Instant meldeZeitpunkt = feature.getProperties().getMeldeZeitpunkt();
-              String landkreisId = feature.getProperties().getLandkreisId();
+              var landId = feature.getProperties().getLandId();
+              var bundesland = feature.getProperties().getBundesland();
+              var landkreis = feature.getProperties().getLandkreis();
+              var altersGruppe = feature.getProperties().getAltersgruppe().replaceAll("A", "");
+              var geschlecht = feature.getProperties().getGeschlecht();
+              var anzahlFaelle = feature.getProperties().getFaelle();
+              var anzahlTodesFaelle = feature.getProperties().getTodesfaelle();
+              var meldeZeitpunkt = feature.getProperties().getMeldeZeitpunkt();
+              var landkreisId = feature.getProperties().getLandkreisId();
 
               return new de.wirvsvirus.maxcap.FaelleLandkreis(
                   landId,
@@ -66,6 +64,6 @@ public class CallFaelleLandkreisApi {
                   meldeZeitpunkt,
                   landkreisId);
             })
-        .collect(Collectors.toList());
+        .toList();
   }
 }

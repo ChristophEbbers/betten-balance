@@ -1,4 +1,4 @@
-package de.wirvsvirus.maxcap.npgeoconsumer;
+package de.wirvsvirus.maxcap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;

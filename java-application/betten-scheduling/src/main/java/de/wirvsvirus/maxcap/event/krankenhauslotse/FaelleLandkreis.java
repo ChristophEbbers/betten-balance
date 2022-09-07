@@ -1,4 +1,4 @@
-package de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo;
+package de.wirvsvirus.maxcap.event.krankenhauslotse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;

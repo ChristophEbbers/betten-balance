@@ -1,4 +1,4 @@
-package de.wirvsvirus.maxcap.npgeoconsumer;
+package de.wirvsvirus.maxcap;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

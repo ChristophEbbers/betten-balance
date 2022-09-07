@@ -1,17 +1,17 @@
-package de.wirvsvirus.maxcap.npgeoconsumer.repository;
+package de.wirvsvirus.maxcap.repository;
 
-import de.wirvsvirus.maxcap.FaelleLandkreis;
+import de.wirvsvirus.maxcap.Krankenhaus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class FaelleLandkreisRepository {
+public class KrankenhausRepository {
 
   private final MongoTemplate mongoTemplate;
 
-  public void save(FaelleLandkreis faelleLandkreis) {
-    mongoTemplate.save(faelleLandkreis);
+  public void save(Krankenhaus krankenhaus) {
+    mongoTemplate.save(krankenhaus);
   }
 }

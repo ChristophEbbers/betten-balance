@@ -1,29 +1,27 @@
-package de.wirvsvirus.maxcap.npgeoconsumer;
+package de.wirvsvirus.maxcap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.wirvsvirus.maxcap.Krankenhaus;
-import de.wirvsvirus.maxcap.npgeoconsumer.event.krankenhauslotse.BettenInfo;
-import de.wirvsvirus.maxcap.npgeoconsumer.event.npgeo.KrankenhausDeutschland;
-import de.wirvsvirus.maxcap.npgeoconsumer.repository.BettenRepository;
-import de.wirvsvirus.maxcap.npgeoconsumer.repository.KrankenhausRepository;
+import de.wirvsvirus.maxcap.event.krankenhauslotse.BettenInfo;
+import de.wirvsvirus.maxcap.event.krankenhauslotse.KrankenhausDeutschland;
+import de.wirvsvirus.maxcap.repository.BettenRepository;
+import de.wirvsvirus.maxcap.repository.KrankenhausRepository;
+import java.io.File;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/maxcap")
@@ -43,7 +41,7 @@ public class CallKrankenhausApi {
   @Value("${krankenhauslotse.uri}")
   private String krankenhauslotseBaseUri;
 
-  // @Scheduled(initialDelayString = "PT1M", fixedDelayString = "10000000")
+//  @Scheduled(initialDelayString = "PT10M")
   @GetMapping("/krankenhaus")
   public void consumeNpgeoKrankenhaeuser() {
     log.info("Consume Krankenhaus from {}", npgeoKrankenhausBaseUri);
@@ -53,10 +51,10 @@ public class CallKrankenhausApi {
   @GetMapping("/betten")
   public ResponseEntity<Void> consumeBetten() {
     try {
-      BettenInfo bettenInfo = objectMapper.readValue(new File("temp.json"), BettenInfo.class);
-      List<BettenDeutschland> betten = toBettenDeutschland(bettenInfo);
-      //betten.forEach(bettenRepository::save);
-    log.info("{}", betten.size());
+      var bettenInfo = objectMapper.readValue(new File("temp.json"), BettenInfo.class);
+      var betten = toBettenDeutschland(bettenInfo);
+      betten.forEach(bettenRepository::save);
+      log.info("{}", betten.size());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -66,7 +64,7 @@ public class CallKrankenhausApi {
 
   private void saveKrankenhaeuserFromApi(
       @Qualifier("npgeoApiClientTemplate") RestTemplate restTemplate) {
-    List<Krankenhaus> krankenhaus =
+    var krankenhaus =
         toKrankenhausModel(
             Objects.requireNonNull(
                 restTemplate.getForObject(npgeoKrankenhausBaseUri, KrankenhausDeutschland.class)));
@@ -78,16 +76,16 @@ public class CallKrankenhausApi {
     return betten.getKh_results().stream()
         .map(
             khResult -> {
-              String bundesland = khResult.getBundesland();
-              String name = khResult.getName();
-              String strasse = khResult.getStrasse();
-              String plz = khResult.getPlz();
-              String ort = khResult.getOrt();
-              String anzahlBetten = khResult.getAnzahlBetten();
-              String aerzteAmbulant = khResult.getAerzteAmbulant();
-              String aerzteStationaer = khResult.getAerzteStationaer();
-              String krankenpflegerAmbulant = khResult.getKrankenpflegerAmbulant();
-              String krankenpflegerStationaer = khResult.getKrankenpflegerStationaer();
+              var bundesland = khResult.getBundesland();
+              var name = khResult.getName();
+              var strasse = khResult.getStrasse();
+              var plz = khResult.getPlz();
+              var ort = khResult.getOrt();
+              var anzahlBetten = khResult.getAnzahlBetten();
+              var aerzteAmbulant = khResult.getAerzteAmbulant();
+              var aerzteStationaer = khResult.getAerzteStationaer();
+              var krankenpflegerAmbulant = khResult.getKrankenpflegerAmbulant();
+              var krankenpflegerStationaer = khResult.getKrankenpflegerStationaer();
 
               return new BettenDeutschland(
                   bundesland,
@@ -101,30 +99,30 @@ public class CallKrankenhausApi {
                   krankenpflegerAmbulant,
                   krankenpflegerStationaer);
             })
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private List<Krankenhaus> toKrankenhausModel(KrankenhausDeutschland apiNpgeoKrankenhaus) {
     return apiNpgeoKrankenhaus.getFeatures().stream()
         .map(
             feature -> {
-              String name = feature.getProperties().getName();
-              String amenty = feature.getProperties().getAmenity();
-              String healthcare = feature.getProperties().getHealthcare();
-              String operator = feature.getProperties().getOperator();
-              String telefonnummer = feature.getProperties().getContact_phone();
-              String webseite = feature.getProperties().getContact_website();
-              String strasse = feature.getProperties().getAddress_street();
-              String hausnummer = feature.getProperties().getAddress_housenumber();
-              String plz = feature.getProperties().getAddress_postcode();
-              String stadt = feature.getProperties().getAddress_city();
-              String emergency = feature.getProperties().getEmergency();
-              String rooms = feature.getProperties().getRooms();
-              String beds = feature.getProperties().getBeds();
-              String capacity = feature.getProperties().getCapacity();
-              String wheelchair = feature.getProperties().getWheelchair();
-              Double lat = feature.getGeometry().getCoordinates().get(1);
-              Double lon = feature.getGeometry().getCoordinates().get(0);
+              var name = feature.getProperties().getName();
+              var amenty = feature.getProperties().getAmenity();
+              var healthcare = feature.getProperties().getHealthcare();
+              var operator = feature.getProperties().getOperator();
+              var telefonnummer = feature.getProperties().getContact_phone();
+              var webseite = feature.getProperties().getContact_website();
+              var strasse = feature.getProperties().getAddress_street();
+              var hausnummer = feature.getProperties().getAddress_housenumber();
+              var plz = feature.getProperties().getAddress_postcode();
+              var stadt = feature.getProperties().getAddress_city();
+              var emergency = feature.getProperties().getEmergency();
+              var rooms = feature.getProperties().getRooms();
+              var beds = feature.getProperties().getBeds();
+              var capacity = feature.getProperties().getCapacity();
+              var wheelchair = feature.getProperties().getWheelchair();
+              var lat = feature.getGeometry().getCoordinates().get(1);
+              var lon = feature.getGeometry().getCoordinates().get(0);
 
               return new Krankenhaus(
                   name,
@@ -146,6 +144,6 @@ public class CallKrankenhausApi {
                   lon,
                   Instant.now());
             })
-        .collect(Collectors.toList());
+        .toList();
   }
 }

@@ -1,4 +1,4 @@
-package de.wirvsvirus.maxcap.npgeoconsumer.event.krankenhauslotse;
+package de.wirvsvirus.maxcap.event.krankenhauslotse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
